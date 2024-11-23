@@ -141,24 +141,30 @@ class PokemonComponent extends HTMLElement {
   connectedCallback(): void {
     if (this.userData?.favPokemon) {
       this.searchPokemon(this.userData.favPokemon);
-      const searchBtn = this.shadowRoot!.querySelector<HTMLButtonElement>("#search-btn");
-      if (searchBtn) {
-        searchBtn.addEventListener("click", this.handleSearchClick.bind(this));
-      }
-      document.addEventListener("formSubmitted", async (e) => {
-        setTimeout(() => {
-          const user = localStorage.getItem("user");
-          this.userData = user ? JSON.parse(user) : {};
-          if (this.userData?.favPokemon) {
-            this.searchPokemon(this.userData.favPokemon);
-            const searchBtn = this.shadowRoot!.querySelector<HTMLButtonElement>("#search-btn");
-            if (searchBtn) {
-              searchBtn.addEventListener("click", this.handleSearchClick.bind(this));
-            }
-          }
-        }, 200)
-      })
     }
+    const searchBtn = this.shadowRoot!.querySelector<HTMLButtonElement>("#search-btn");
+    if (searchBtn) {
+      searchBtn.addEventListener("click", this.handleSearchClick.bind(this));
+    }
+
+    const input = this.shadowRoot!.querySelector<HTMLInputElement>("#search-input");
+    if (input) {
+      input.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          this.handleSearchClick();
+        }
+      });
+    }
+
+    document.addEventListener("formSubmitted", async () => {
+      setTimeout(() => {
+        const user = localStorage.getItem("user");
+        this.userData = user ? JSON.parse(user) : {};
+        if (this.userData?.favPokemon) {
+          this.searchPokemon(this.userData.favPokemon);
+        }
+      }, 200)
+    });
   }
 
   disconnectedCallback(): void {

@@ -150,25 +150,29 @@ class PokemonComponent extends HTMLElement {
         var _a;
         if ((_a = this.userData) === null || _a === void 0 ? void 0 : _a.favPokemon) {
             this.searchPokemon(this.userData.favPokemon);
-            const searchBtn = this.shadowRoot.querySelector("#search-btn");
-            if (searchBtn) {
-                searchBtn.addEventListener("click", this.handleSearchClick.bind(this));
-            }
-            document.addEventListener("formSubmitted", (e) => __awaiter(this, void 0, void 0, function* () {
-                setTimeout(() => {
-                    var _a;
-                    const user = localStorage.getItem("user");
-                    this.userData = user ? JSON.parse(user) : {};
-                    if ((_a = this.userData) === null || _a === void 0 ? void 0 : _a.favPokemon) {
-                        this.searchPokemon(this.userData.favPokemon);
-                        const searchBtn = this.shadowRoot.querySelector("#search-btn");
-                        if (searchBtn) {
-                            searchBtn.addEventListener("click", this.handleSearchClick.bind(this));
-                        }
-                    }
-                }, 200);
-            }));
         }
+        const searchBtn = this.shadowRoot.querySelector("#search-btn");
+        if (searchBtn) {
+            searchBtn.addEventListener("click", this.handleSearchClick.bind(this));
+        }
+        const input = this.shadowRoot.querySelector("#search-input");
+        if (input) {
+            input.addEventListener("keydown", (e) => {
+                if (e.key === "Enter") {
+                    this.handleSearchClick();
+                }
+            });
+        }
+        document.addEventListener("formSubmitted", () => __awaiter(this, void 0, void 0, function* () {
+            setTimeout(() => {
+                var _a;
+                const user = localStorage.getItem("user");
+                this.userData = user ? JSON.parse(user) : {};
+                if ((_a = this.userData) === null || _a === void 0 ? void 0 : _a.favPokemon) {
+                    this.searchPokemon(this.userData.favPokemon);
+                }
+            }, 200);
+        }));
     }
     disconnectedCallback() {
         const searchBtn = this.shadowRoot.querySelector("#search-btn");
