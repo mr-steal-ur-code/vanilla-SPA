@@ -95,11 +95,23 @@ class WeatherComponent extends HTMLElement {
     `;
   }
   connectedCallback() {
-    if (!this.userData?.weatherKey) {
-      this.shadowRoot!.getElementById("noKeyText")!.innerHTML = `<span>No API Key found, set the key in your <br/><a href="https://vanilla-spa-406f4.web.app/profile">Profile</a></span>`
-    }
-    this.shadowRoot
-      ?.querySelector("button")
+    document.addEventListener("formSubmitted", async (e) => {
+      setTimeout(() => {
+        const user = localStorage.getItem("user");
+        this.userData = user ? JSON.parse(user) : {};
+
+        const noKeyTextElement = this.shadowRoot!.getElementById("noKeyText");
+
+        if (!this.userData?.weatherKey) {
+          noKeyTextElement!.innerHTML = `<span>No API Key found, set the key in your Profile</span>`;
+        } else {
+          noKeyTextElement!.innerHTML = "";
+        }
+      }, 200)
+    })
+
+    const searchButton = this.shadowRoot?.querySelector("button");
+    searchButton
       ?.addEventListener("click", async () => {
         const zipCode = this.shadowRoot?.querySelector("input")?.value;
         if (zipCode) {

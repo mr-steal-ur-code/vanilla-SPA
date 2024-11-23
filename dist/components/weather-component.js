@@ -104,11 +104,23 @@ class WeatherComponent extends HTMLElement {
     `;
     }
     connectedCallback() {
-        var _a, _b, _c;
-        if (!((_a = this.userData) === null || _a === void 0 ? void 0 : _a.weatherKey)) {
-            this.shadowRoot.getElementById("noKeyText").innerHTML = `<span>No API Key found, set the key in your <br/><a href="https://vanilla-spa-406f4.web.app/profile">Profile</a></span>`;
-        }
-        (_c = (_b = this.shadowRoot) === null || _b === void 0 ? void 0 : _b.querySelector("button")) === null || _c === void 0 ? void 0 : _c.addEventListener("click", () => __awaiter(this, void 0, void 0, function* () {
+        var _a;
+        document.addEventListener("formSubmitted", (e) => __awaiter(this, void 0, void 0, function* () {
+            setTimeout(() => {
+                var _a;
+                const user = localStorage.getItem("user");
+                this.userData = user ? JSON.parse(user) : {};
+                const noKeyTextElement = this.shadowRoot.getElementById("noKeyText");
+                if (!((_a = this.userData) === null || _a === void 0 ? void 0 : _a.weatherKey)) {
+                    noKeyTextElement.innerHTML = `<span>No API Key found, set the key in your Profile</span>`;
+                }
+                else {
+                    noKeyTextElement.innerHTML = "";
+                }
+            }, 200);
+        }));
+        const searchButton = (_a = this.shadowRoot) === null || _a === void 0 ? void 0 : _a.querySelector("button");
+        searchButton === null || searchButton === void 0 ? void 0 : searchButton.addEventListener("click", () => __awaiter(this, void 0, void 0, function* () {
             var _a, _b;
             const zipCode = (_b = (_a = this.shadowRoot) === null || _a === void 0 ? void 0 : _a.querySelector("input")) === null || _b === void 0 ? void 0 : _b.value;
             if (zipCode) {
