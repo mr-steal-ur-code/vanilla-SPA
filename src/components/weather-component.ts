@@ -83,7 +83,8 @@ class WeatherComponent extends HTMLElement {
     <div class="container">
       <div id="weather" class="weather">
         <h2 style="margin:auto;padding:.25rem">Search a zip code to display weather</h2>
-      </div>
+        </div>
+        <div id="noKeyText" style="color:red;text-align:center"></div>
       <div class="search">
       <a href="https://www.weatherapi.com/" title="Free Weather API"><img src='//cdn.weatherapi.com/v4/images/weatherapi_logo.png' alt="Weather data by WeatherAPI.com" ></a>
         <label for="zipCode">Search a zip code
@@ -94,6 +95,9 @@ class WeatherComponent extends HTMLElement {
     `;
   }
   connectedCallback() {
+    if (!this.userData?.weatherKey) {
+      this.shadowRoot!.getElementById("noKeyText")!.innerHTML = `<span>No API Key found, set the key in your <br/><a href="https://vanilla-spa-406f4.web.app/profile">Profile</a></span>`
+    }
     this.shadowRoot
       ?.querySelector("button")
       ?.addEventListener("click", async () => {

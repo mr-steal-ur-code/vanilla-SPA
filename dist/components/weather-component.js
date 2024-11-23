@@ -92,7 +92,8 @@ class WeatherComponent extends HTMLElement {
     <div class="container">
       <div id="weather" class="weather">
         <h2 style="margin:auto;padding:.25rem">Search a zip code to display weather</h2>
-      </div>
+        </div>
+        <div id="noKeyText" style="color:red;text-align:center"></div>
       <div class="search">
       <a href="https://www.weatherapi.com/" title="Free Weather API"><img src='//cdn.weatherapi.com/v4/images/weatherapi_logo.png' alt="Weather data by WeatherAPI.com" ></a>
         <label for="zipCode">Search a zip code
@@ -103,8 +104,11 @@ class WeatherComponent extends HTMLElement {
     `;
     }
     connectedCallback() {
-        var _a, _b;
-        (_b = (_a = this.shadowRoot) === null || _a === void 0 ? void 0 : _a.querySelector("button")) === null || _b === void 0 ? void 0 : _b.addEventListener("click", () => __awaiter(this, void 0, void 0, function* () {
+        var _a, _b, _c;
+        if (!((_a = this.userData) === null || _a === void 0 ? void 0 : _a.weatherKey)) {
+            this.shadowRoot.getElementById("noKeyText").innerHTML = `<span>No API Key found, set the key in your <br/><a href="https://vanilla-spa-406f4.web.app/profile">Profile</a></span>`;
+        }
+        (_c = (_b = this.shadowRoot) === null || _b === void 0 ? void 0 : _b.querySelector("button")) === null || _c === void 0 ? void 0 : _c.addEventListener("click", () => __awaiter(this, void 0, void 0, function* () {
             var _a, _b;
             const zipCode = (_b = (_a = this.shadowRoot) === null || _a === void 0 ? void 0 : _a.querySelector("input")) === null || _b === void 0 ? void 0 : _b.value;
             if (zipCode) {

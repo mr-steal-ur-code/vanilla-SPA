@@ -73,16 +73,30 @@
   <script>
     const toast = document.querySelector("toast-component");
 
-    function showView(viewName) {
+    function showView(viewName, updateHistory = true) {
       const views = document.querySelectorAll('.view');
       views.forEach(view => view.style.display = 'none');
       const selectedView = document.getElementById(viewName);
       if (selectedView) {
         selectedView.style.display = 'block';
         document.title = selectedView.id;
+
+        if (updateHistory) {
+          history.pushState({ view: viewName }, document.title, `/${viewName}`);
+        }
       }
     }
-    showView('home');
+
+    function initializeView() {
+      const hash = window.location.hash.substring(1);
+      const initialView = hash || 'home';
+      showView(initialView, false);
+    }
+    window.addEventListener('popstate', (event) => {
+      const viewName = event.state?.view || 'home';
+      showView(viewName, false);
+    });
+    initializeView();
     setUser()
     document.addEventListener("formSubmitted", async (e) => {
       const userData = await JSON.parse(localStorage.getItem("user")) || {};
