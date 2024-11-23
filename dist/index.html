@@ -102,8 +102,8 @@
       const userData = await JSON.parse(localStorage.getItem("user")) || {};
       const guestEl = document.getElementById("guest");
       if (userData?.name) {
-        guestEl.innerText = `Welcome back ${userData?.name}!`;
-      } else guestEl.innerText = "Welcome!";
+        guestEl.innerText = `Hey ${userData?.name}!`;
+      } else guestEl.innerText = "";
     }
 
     const modal = document.getElementById("weather-modal");

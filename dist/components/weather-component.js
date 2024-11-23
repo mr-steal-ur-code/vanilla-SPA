@@ -126,12 +126,12 @@ class WeatherComponent extends HTMLElement {
             if (zipCode) {
                 this.shadowRoot.getElementById("weather").innerHTML = `<div style="margin: auto;" class="spinner"></div>`;
                 setTimeout(() => __awaiter(this, void 0, void 0, function* () {
-                    const data = zipCode ? yield this.getWeather(zipCode) : null;
-                    if (data) {
-                        this.displayWeather(data);
+                    const res = zipCode ? yield this.getWeather(zipCode) : null;
+                    if (res === null || res === void 0 ? void 0 : res.success) {
+                        this.displayWeather(res === null || res === void 0 ? void 0 : res.data);
                     }
                     else {
-                        this.shadowRoot.getElementById("weather").innerHTML = `<div style="margin: auto;">City Not Found</div>`;
+                        this.shadowRoot.getElementById("weather").innerHTML = `<div style="margin: auto;">Error getting Weather</div>`;
                     }
                 }), 1500);
             }
@@ -142,8 +142,10 @@ class WeatherComponent extends HTMLElement {
             var _a;
             const response = yield fetch(`https://api.weatherapi.com/v1/forecast.json?q=${zipCode}&key=${(_a = this.userData) === null || _a === void 0 ? void 0 : _a.weatherKey}&days=3`);
             if (response.ok) {
-                return yield response.json();
+                return { success: true, data: yield response.json() };
             }
+            else
+                return { success: false };
         });
     }
     displayWeather(data) {

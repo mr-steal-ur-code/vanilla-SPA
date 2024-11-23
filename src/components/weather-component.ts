@@ -119,13 +119,13 @@ class WeatherComponent extends HTMLElement {
             "weather"
           )!.innerHTML = `<div style="margin: auto;" class="spinner"></div>`;
           setTimeout(async () => {
-            const data = zipCode ? await this.getWeather(zipCode) : null;
-            if (data) {
-              this.displayWeather(data);
+            const res = zipCode ? await this.getWeather(zipCode) : null;
+            if (res?.success) {
+              this.displayWeather(res?.data);
             } else {
               this.shadowRoot!.getElementById(
                 "weather"
-              )!.innerHTML = `<div style="margin: auto;">City Not Found</div>`;
+              )!.innerHTML = `<div style="margin: auto;">Error getting Weather</div>`;
             }
           }, 1500);
         }
@@ -136,8 +136,8 @@ class WeatherComponent extends HTMLElement {
       `https://api.weatherapi.com/v1/forecast.json?q=${zipCode}&key=${this.userData?.weatherKey}&days=3`
     );
     if (response.ok) {
-      return await response.json();
-    }
+      return { success: true, data: await response.json() };
+    } else return { success: false }
   }
   displayWeather(data: any) {
     const forecastHtml = data.forecast?.forecastday
