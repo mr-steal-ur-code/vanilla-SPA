@@ -23,7 +23,7 @@ class ToastComponent extends HTMLElement {
           box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
           z-index: 9999;
           opacity: 0;
-          transform: translate(-50%, 200%);
+          transform: translate(-50%, 400%);
           transition: opacity 0.5s ease, transform 0.5s ease;
         }
         .container.show {

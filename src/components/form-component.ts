@@ -2,7 +2,8 @@ class FormComponent extends HTMLElement {
   userData: UserData;
   constructor() {
     super();
-    this.userData = JSON.parse(localStorage.getItem("user") || "") || {};
+    const user = localStorage.getItem("user");
+    this.userData = user ? JSON.parse(user) : {};
     this.attachShadow({ mode: "open" });
     this.shadowRoot!.innerHTML = `
 <style>
@@ -76,7 +77,6 @@ class FormComponent extends HTMLElement {
   }
   handleSubmit(event: any) {
     event.preventDefault();
-    const form = event?.target;
     const inputs = event.target.querySelectorAll("input");
     const formData: { [key: string]: any } = {};
     inputs.forEach((input: { id: string, value: any }) => {
@@ -92,7 +92,8 @@ class FormComponent extends HTMLElement {
       bubbles: true,
       composed: true,
     });
-    this.userData = JSON.parse(localStorage.getItem("user") || "") || { name: "", email: "", weatherKey: "" };
+    const user = localStorage.getItem("user");
+    this.userData = user ? JSON.parse(user) : {};
     document.dispatchEvent(toastEvent);
     document.dispatchEvent(submitEvent);
   }

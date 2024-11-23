@@ -11,7 +11,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 class WeatherComponent extends HTMLElement {
     constructor() {
         super();
-        this.userData = JSON.parse(localStorage.getItem("user") || "") || {};
+        const user = localStorage.getItem("user");
+        this.userData = user ? JSON.parse(user) : {};
         this.attachShadow({ mode: "open" });
         this.shadowRoot.innerHTML = `
     <style>

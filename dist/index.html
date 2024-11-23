@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <header-component></header-component>
+
+  <div id="home" class="home view fade">
+    <p style="font-size:1.1rem;text-align:left;color:blueviolet;padding-left: .2rem;" id="guest"></p>
+    <section id="intro">
+      <p>Welcome to my Single Page Application (SPA) built entirely with vanilla JavaScript! This project demonstrates
+        how to create a dynamic, seamless user experience without relying on external frameworks or libraries. By
+        leveraging modern JavaScript features, reusable web components, and the browser's native capabilities, this SPA
+        showcases efficient navigation, state management, and modular design—all while maintaining simplicity and
+        performance.</p>
+    </section>
+
+    <section>
+      <p class="small">Vanilla web components are a powerful way to create
+        reusable, encapsulated UI elements without relying on frameworks. Below is an example of a reusable modal
+        component that contains a custom weather fetch component.</p>
+      <div style="text-align: center; padding:1rem">
+        <button id="open-modal-btn">Check Weather</button>
+      </div>
+    </section>
+
+  </div>
+
+  <div id="about" class="about view fade">
+    <h1>About</h1>
+    <p>This is the about page.</p>
+  </div>
+
+  <div id="profile" class="profile view fade">
+    <section>
+      <p>State management in this application is handled using vanilla JavaScript, leveraging the simplicity of
+        `localStorage` and custom events. When the form is submitted, the input data is captured, stored in
+        `localStorage`, and used to update the application state dynamically. Custom events ensure seamless
+        communication between components, allowing the user's name to be updated instantly across the application. This
+        approach demonstrates how powerful and efficient state management can be, even without external libraries or
+        frameworks.
+      </p>
+
+      <form-component>
+        <label for="name">Name</label>
+        <input required id="name" />
+        <label for="email">E-Mail</label>
+        <input id="email" />
+        <button type="submit">Submit</button>
+      </form-component>
+    </section>
+  </div>
+  <footer-component></footer-component>
+
+  <toast-component></toast-component>
+
+  <modal-component id="weather-modal">
+    <h1 style="text-align: center;" slot="header">CJ's Weather Modal</h1>
+    <div slot="body"><weather-component></weather-component></div>
+  </modal-component>
+  <script src="./components/form-component.js"></script>
+  <script src="./components/weather-component.js"></script>
+  <script src="./components/toast-component.js"></script>
+  <script src="./components/modal-component.js"></script>
+  <script src="./components/header-component.js"></script>
+  <script src="./components/footer-component.js"></script>
+  <script>
+    const toast = document.querySelector("toast-component");
+
+    function showView(viewName) {
+      const views = document.querySelectorAll('.view');
+      views.forEach(view => view.style.display = 'none');
+      const selectedView = document.getElementById(viewName);
+      if (selectedView) {
+        selectedView.style.display = 'block';
+        document.title = selectedView.id;
+      }
+    }
+    showView('home');
+    setUser()
+    document.addEventListener("formSubmitted", async (e) => {
+      const userData = await JSON.parse(localStorage.getItem("user")) || {};
+      const updatedData = { ...userData };
+      for (const key in e.detail) {
+        if (e.detail[key] !== undefined && e.detail[key] !== null && e.detail[key].trim !== "") {
+          updatedData[key] = e.detail[key];
+        }
+      }
+
+      await localStorage.setItem("user", JSON.stringify(updatedData));
+      setUser();
+    })
+    document.addEventListener("toast", (e) => {
+      toast.show(e.detail);
+    })
+    async function setUser() {
+      const userData = await JSON.parse(localStorage.getItem("user")) || {};
+      const guestEl = document.getElementById("guest");
+      if (userData?.name) {
+        guestEl.innerText = `Welcome back ${userData?.name}!`;
+      } else guestEl.innerText = "Welcome!";
+    }
+
+    const modal = document.getElementById("weather-modal");
+    const openBtn = document.getElementById("open-modal-btn");
+    const closeBtn = modal.shadowRoot.querySelector("#close-modal-btn") || null;
+
+    openBtn.addEventListener("click", () => {
+      modal.show();
+    })
+    if (closeBtn) {
+      closeBtn.addEventListener("click", () => {
+        modal.hide();
+      })
+    }
+  </script>
+</body>
+<style>
+  body {
+    font-family: cursive;
+    margin: 0 auto;
+  }
+
+  .test {
+    background-color: #11aabb;
+    padding: 1rem;
+    color: #ffffff;
+    font-size: 1.3rem;
+    margin: 1rem;
+    text-align: center;
+  }
+
+  input {
+    padding: .5rem;
+    margin-bottom: .75rem;
+    border: none;
+  }
+
+  input:focus {
+    outline: none;
+  }
+
+  label {
+    font-size: 1rem;
+    margin-bottom: .2rem;
+    display: block;
+  }
+
+  button {
+    cursor: pointer;
+    color: #ffffff;
+    padding: .5rem;
+    background: #01c1ff;
+    border-radius: 6px;
+    border: none;
+    font-family: cursive;
+  }
+
+  button:hover {
+    background: #01b1dd;
+    color: #f7f7f7;
+  }
+</style>
+
+</html>

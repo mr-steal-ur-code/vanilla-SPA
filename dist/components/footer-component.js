@@ -51,7 +51,7 @@ class FooterComponent extends HTMLElement {
     </style>
     <div class="parent">
     <h5 style="margin:0">Made By CJ</h5>
-    <a target="_blank" href="#">View on Github</a>
+    <a target="_blank" href="https://github.com/mr-steal-ur-code/vanilla-SPA">View on Github</a>
     </div>
     `;
     }
