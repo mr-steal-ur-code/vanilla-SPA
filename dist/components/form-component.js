@@ -1,7 +1,7 @@
 "use strict";
 class FormComponent extends HTMLElement {
     constructor() {
-        var _a, _b, _c;
+        var _a, _b, _c, _d;
         super();
         const user = localStorage.getItem("user");
         this.userData = user ? JSON.parse(user) : {};
@@ -68,8 +68,10 @@ class FormComponent extends HTMLElement {
       <input required id="name" value="${((_a = this.userData) === null || _a === void 0 ? void 0 : _a.name) || ''}"/>
       <label for="email">E-Mail</label>
       <input id="email" value="${((_b = this.userData) === null || _b === void 0 ? void 0 : _b.email) || ''}"/>
+      <label for="favPokemon">Favorite Pokemon</label>
+      <input id="favPokemon" value="${((_c = this.userData) === null || _c === void 0 ? void 0 : _c.favPokemon) || ''}"/>
       <label for="weatherKey">Weather API Key</label>
-      <input type="password" id="weatherKey" value="${((_c = this.userData) === null || _c === void 0 ? void 0 : _c.weatherKey) || ''}"/>
+      <input type="password" id="weatherKey" value="${((_d = this.userData) === null || _d === void 0 ? void 0 : _d.weatherKey) || ''}"/>
       <button type="submit">Submit</button>
       </form>
       `;

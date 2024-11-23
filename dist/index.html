@@ -12,7 +12,7 @@
   <header-component></header-component>
 
   <div id="home" class="home view fade">
-    <p style="font-size:1.1rem;text-align:left;color:blueviolet;padding-left: .2rem;" id="guest"></p>
+    <p style="font-size:1.2rem;text-align:left;color:blueviolet;text-align: center;" id="guest"></p>
     <section id="intro">
       <p>Welcome to my Single Page Application (SPA) built entirely with vanilla JavaScript! This project demonstrates
         how to create a dynamic, seamless user experience without relying on external frameworks or libraries. By
@@ -32,9 +32,20 @@
 
   </div>
 
-  <div id="about" class="about view fade">
-    <h1>About</h1>
-    <p>This is the about page.</p>
+  <div id="pokemon" class="view fade">
+    <section style="text-align: center;">
+      <h2>Pokemon Search!</h2>
+      <h4>Favorite Pokemon: <span id="favPokemon" style="color:#01c1ff"></span></h4>
+      <p>This project demonstrates the power of vanilla JavaScript and Web Components by creating a dynamic Pokémon
+        search
+        and display app. Using native browser capabilities, it incorporates a simple yet effective state management
+        system
+        to allow users to select and persist their favorite Pokémon. This showcases how stateful applications can be
+        built
+        without external frameworks, maintaining high performance, modular design, and ease of understanding while
+        leveraging reusable web components.</p>
+      <pokemon-component></pokemon-component>
+    </section>
   </div>
 
   <div id="profile" class="profile view fade">
@@ -68,6 +79,7 @@
   <script src="./components/weather-component.js"></script>
   <script src="./components/toast-component.js"></script>
   <script src="./components/modal-component.js"></script>
+  <script src="./components/pokemon-component.js"></script>
   <script src="./components/header-component.js"></script>
   <script src="./components/footer-component.js"></script>
   <script>
@@ -101,6 +113,10 @@
     async function setUser() {
       const userData = await JSON.parse(localStorage.getItem("user")) || {};
       const guestEl = document.getElementById("guest");
+      const favPokemonEl = document.getElementById("favPokemon");
+      if (userData?.favPokemon) {
+        favPokemonEl.innerText = `${userData?.favPokemon.toUpperCase()}`
+      }
       if (userData?.name) {
         guestEl.innerText = `Hey ${userData?.name}!`;
       } else guestEl.innerText = "";
@@ -121,20 +137,6 @@
   </script>
 </body>
 <style>
-  body {
-    font-family: cursive;
-    margin: 0 auto;
-  }
-
-  .test {
-    background-color: #11aabb;
-    padding: 1rem;
-    color: #ffffff;
-    font-size: 1.3rem;
-    margin: 1rem;
-    text-align: center;
-  }
-
   input {
     padding: .5rem;
     margin-bottom: .75rem;

@@ -52,7 +52,7 @@ class HeaderComponent extends HTMLElement {
     <h2 style="margin:0">Vanilla SPA</h2>
     <nav>
     <button onclick="showView('home')">Home</button>
-    <button onclick="showView('about')">About</button>
+    <button onclick="showView('pokemon')">Pokemon</button>
     <button onclick="showView('profile')">Profile</button>
   </nav>
     </div>

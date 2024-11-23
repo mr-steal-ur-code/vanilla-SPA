@@ -67,6 +67,8 @@ class FormComponent extends HTMLElement {
       <input required id="name" value="${this.userData?.name || ''}"/>
       <label for="email">E-Mail</label>
       <input id="email" value="${this.userData?.email || ''}"/>
+      <label for="favPokemon">Favorite Pokemon</label>
+      <input id="favPokemon" value="${this.userData?.favPokemon || ''}"/>
       <label for="weatherKey">Weather API Key</label>
       <input type="password" id="weatherKey" value="${this.userData?.weatherKey || ''}"/>
       <button type="submit">Submit</button>
